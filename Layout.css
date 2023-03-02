@@ -1,0 +1,27 @@
+*{
+   margin: 0;
+}
+ nav{
+   display: flex;
+   background-color: blue;
+   gap: 3%;
+   flex-direction: row;
+   box-sizing: border-box;
+ }
+ footer{
+   display: flex;
+   background-color: aqua;
+   position: relative;
+   bottom: 0;
+   justify-content: center;
+   align-items: center;
+ }
+ .logo{
+   height: 100px;
+   border-radius: 50%;
+ }
+ .company_name{
+   display: flex;
+   align-self: center;
+   padding-top: 25%;
+ }
