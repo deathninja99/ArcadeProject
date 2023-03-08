@@ -1,0 +1,13 @@
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 700px;
+  height: 700px;
+  gap: 10px;
+}
+.board {
+  display: flex;
+  background-color: lightgrey;
+  border: 1px solid black;
+}

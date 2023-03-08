@@ -3,18 +3,25 @@
 }
  nav{
    display: flex;
-   background-color: blue;
+   background-color: #558B38;
    gap: 3%;
    flex-direction: row;
    box-sizing: border-box;
  }
  footer{
    display: flex;
-   background-color: aqua;
+   background-color: #2B0973;
    position: relative;
    bottom: 0;
    justify-content: center;
    align-items: center;
+ }
+ .library{
+   margin-left: 10%;
+   margin-right: 10%;
+   background-color: #0756F2;
+   box-shadow: 0 0 3px;
+   
  }
  .logo{
    height: 100px;
@@ -25,3 +32,4 @@
    align-self: center;
    padding-top: 25%;
  }
+ 
