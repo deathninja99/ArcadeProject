@@ -40,7 +40,7 @@ gameboard.addEventListener("click", (e) => {
     alert("already taken");
   } else {
     //take it and change it to player
-    e.target.class.add("picked", "taken");
+    e.target.classList.add("picked", "taken");
     let used = document.getElementById("picked");
     console.log(used);
   }
@@ -63,7 +63,13 @@ reset.addEventListener("click", (e) => {
     }
   }
 });
-//check if tile is taken
+let board = getElementById("board");
+function getRow(gameboard, row) {
+  console.log(gameboard[row]);
+}
+gameboard.forEach((div) => {
+  console.log(test);
+});
 //check if tie
 //check for win
 //event listeners
