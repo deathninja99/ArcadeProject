@@ -1,16 +1,25 @@
 //make player list
 let gamestate = {
   player: [{ name: "" }, { name: "" }],
+  boardarr: [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+  ],
 };
 let player1 = document.getElementById("player1");
 let player2 = document.getElementById("player2");
 //create gameboard
 function renderBoard() {
   let gameboard = document.getElementById("gameboard");
-  for (let i = 0; i < 9; i++) {
-    let boardel = document.createElement("div");
-    boardel.classList.add("board");
-    gameboard.append(boardel);
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      let boardel = document.createElement("div");
+      boardel.classList.add("board");
+      boardel.id = `${i}-${j}`;
+
+      gameboard.append(boardel);
+    }
   }
 }
 renderBoard();
@@ -57,22 +66,32 @@ reset.addEventListener("click", (e) => {
   player1.innerText = "player1:";
   player2.innerText = "player2:";
   //resets board
-  for (i = 0; i < 9; i++) {
-    if (boardel.classList.contains("taken" || "picked")) {
-      document.removeElement("div");
+  let boardtk = document.getElementsByClassName("board");
+  for (i = 0; i < 3; i++) {
+    for (j = 0; i < 3; j++) {
+      if (boardtk.classList.contains("taken")) {
+        boardtk.classList.remove("taken", "picked");
+      }
     }
   }
 });
-let board = getElementById("board");
-function getRow(gameboard, row) {
-  console.log(gameboard[row]);
-}
-gameboard.forEach((div) => {
-  console.log(test);
-});
+
+// let board = getElementById("board");
+// function getRow(gameboard, row) {
+//   console.log(gameboard[row]);
+// }
+// gameboard.forEach((div) => {
+//   console.log(test);
+// });
 //check if tie
 //check for win
 //event listeners
 input.addEventListener("click", function () {
   nameadd(document.querySelector("input").value);
+});
+gameboard.addEventListener("click", (e) => {
+  let row = e.target.id[0];
+  let column = e.target.id[2];
+  console.log(row);
+  console.log(column);
 });
