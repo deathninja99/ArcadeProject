@@ -38,6 +38,12 @@ function nameadd(input) {
     gamestate.player[0].name = input;
     player1.innerText += gamestate.player[0].name;
   }
+  if (gamestate.player[0].name !== "" && gamestate.player[1].name !== "") {
+    let text = document.getElementById("text");
+    let input = document.getElementById("submit");
+    text.style.display = "none";
+    input.style.display = "none";
+  }
 }
 //pick a tile
 gameboard.addEventListener("click", (e) => {
@@ -55,6 +61,7 @@ gameboard.addEventListener("click", (e) => {
   }
 });
 //reset board game
+let boardtk = document.getElementsByClassName("board");
 let reset = document.getElementById("reset");
 reset.addEventListener("click", (e) => {
   //remove player name from gamestate
@@ -66,23 +73,32 @@ reset.addEventListener("click", (e) => {
   player1.innerText = "player1:";
   player2.innerText = "player2:";
   //resets board
-  let boardtk = document.getElementsByClassName("board");
-  for (i = 0; i < 3; i++) {
-    for (j = 0; i < 3; j++) {
-      if (boardtk.classList.contains("taken")) {
-        boardtk.classList.remove("taken", "picked");
-      }
+  for (i = 0; i < boardtk.length; i++) {
+    if (boardtk[i].classList.contains("taken")) {
+      boardtk[i].classList.remove("picked", "taken");
+      boardtk[i].innerText = " ";
     }
   }
+  //resets input
+  let input = document.getElementById("submit");
+  text.style.display = "initial";
+  input.style.display = "initial";
 });
-
-// let board = getElementById("board");
-// function getRow(gameboard, row) {
-//   console.log(gameboard[row]);
-// }
-// gameboard.forEach((div) => {
-//   console.log(test);
-// });
+// getboard row
+function getrow(gameboard, row) {
+  let boardarr = gamestate.boardarr;
+  for (let i = 0; i < boardarr.length; i++) {
+    console.log(boardarr[i][0]);
+  }
+}
+//getboard column
+function getcolumn(gameboard, col) {
+  let gameboards;
+  let colarr = [];
+  for (let i = 0; i < gameboard.length; i++) {
+    colarr.push(gameboard[i][col]);
+  }
+}
 //check if tie
 //check for win
 //event listeners
@@ -90,8 +106,10 @@ input.addEventListener("click", function () {
   nameadd(document.querySelector("input").value);
 });
 gameboard.addEventListener("click", (e) => {
+  let boardarr = gamestate.boardarr;
+  let target = e.target;
   let row = e.target.id[0];
   let column = e.target.id[2];
-  console.log(row);
-  console.log(column);
+  boardarr[row][column] = "x";
+  target.innerText = "x";
 });
