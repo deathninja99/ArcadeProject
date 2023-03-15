@@ -10,10 +10,15 @@
   justify-content: center;
   background-color: lightgrey;
   border: 0.5px solid black;
-  padding: 30%;
+  height: 80px;
+  align-items: center;
 }
 .picked {
   background-color: red;
+}
+.player1 {
+}
+.player2 {
 }
 @media screen and (max-width: 500px) {
   #gameboard {

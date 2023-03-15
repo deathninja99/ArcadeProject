@@ -1,11 +1,15 @@
 //make player list
 let gamestate = {
-  player: [{ name: "" }, { name: "" }],
+  player: [
+    { name: "", tiles: [] },
+    { name: "", tiles: [] },
+  ],
   boardarr: [
     [null, null, null],
     [null, null, null],
     [null, null, null],
   ],
+  currentturn: 0,
 };
 let player1 = document.getElementById("player1");
 let player2 = document.getElementById("player2");
@@ -29,6 +33,7 @@ let input = document.getElementById("submit");
 //adds name to gamestate
 function nameadd(input) {
   //if gamesate player1 is taken
+  console.log(gamestate.currentturn);
   if (gamestate.player[0].name !== "") {
     //add name to player 2
     gamestate.player[1].name = input;
@@ -45,6 +50,19 @@ function nameadd(input) {
     input.style.display = "none";
   }
 }
+//turn order
+function renderturn() {
+  for (let i = 0; i < gamestate.player.length; i++) {
+    if (gamestate.currentturn === 0) {
+      player1.innerText = `current player: ${gamestate.player[0].name}`;
+      player2.innerText = `player: ${gamestate.player[1].name}`;
+    }
+    if (gamestate.currentturn === 1) {
+      player2.innerText = `current player: ${gamestate.player[1].name}`;
+      player1.innerText = `player: ${gamestate.player[0].name}`;
+    }
+  }
+}
 //pick a tile
 gameboard.addEventListener("click", (e) => {
   //if there is not 2 players alert
@@ -55,9 +73,18 @@ gameboard.addEventListener("click", (e) => {
     alert("already taken");
   } else {
     //take it and change it to player
+    if (gamestate.currentturn === 0) {
+      e.target.classList.add("player1");
+    }
+    if (gamestate.currentturn === 1) {
+      e.target.classList.add("player2");
+    }
     e.target.classList.add("picked", "taken");
     let used = document.getElementById("picked");
-    console.log(used);
+    gamestate.currentturn++;
+    if (gamestate.currentturn > 1) {
+      gamestate.currentturn = 0;
+    }
   }
 });
 //reset board game
@@ -80,7 +107,6 @@ reset.addEventListener("click", (e) => {
     }
   }
   //resets input
-  let input = document.getElementById("submit");
   text.style.display = "initial";
   input.style.display = "initial";
 });
@@ -101,6 +127,7 @@ function getcolumn(gameboard, col) {
 }
 //check if tie
 //check for win
+
 //event listeners
 input.addEventListener("click", function () {
   nameadd(document.querySelector("input").value);
@@ -110,6 +137,17 @@ gameboard.addEventListener("click", (e) => {
   let target = e.target;
   let row = e.target.id[0];
   let column = e.target.id[2];
-  boardarr[row][column] = "x";
-  target.innerText = "x";
+  if (gamestate.currentturn === 0) {
+    boardarr[row][column] = "x";
+    target.innerText = "x";
+    gamestate.player[0].tiles.push([row, column]);
+    renderturn();
+  }
+  if (gamestate.currentturn === 1) {
+    boardarr[row][column] = "0";
+    target.innerText = "0";
+    gamestate.player[1].tiles.push([row, column]);
+
+    renderturn();
+  }
 });
