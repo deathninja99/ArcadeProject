@@ -1,5 +1,4 @@
 #to-do
--create images for index
 -style index
 -make tictactoe
 -make mancala
@@ -9,13 +8,7 @@
 -reset button for games
 
 #tictactoe-todo
--gamestate
--gameloop
--player picks a tile
--mark it for player
--check if winning
--check it tie
--players set names
+-check conditions
 
 #mancala-todo
 -figure out mancala

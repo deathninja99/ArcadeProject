@@ -1,14 +1,16 @@
 //make player list
 let gamestate = {
   player: [
-    { name: "", tiles: [] },
-    { name: "", tiles: [] },
+    { name: "", tiles: [], letter: "X" },
+    { name: "", tiles: [], letter: "O" },
   ],
+  //gameboard in array
   boardarr: [
     [null, null, null],
     [null, null, null],
     [null, null, null],
   ],
+  //turn order
   currentturn: 0,
 };
 let player1 = document.getElementById("player1");
@@ -33,7 +35,6 @@ let input = document.getElementById("submit");
 //adds name to gamestate
 function nameadd(input) {
   //if gamesate player1 is taken
-  console.log(gamestate.currentturn);
   if (gamestate.player[0].name !== "") {
     //add name to player 2
     gamestate.player[1].name = input;
@@ -111,22 +112,115 @@ reset.addEventListener("click", (e) => {
   input.style.display = "initial";
 });
 // getboard row
-function getrow(gameboard, row) {
-  let boardarr = gamestate.boardarr;
+let boardarr = gamestate.boardarr;
+function getRow(row) {
+  let player1 = 0;
+  let player2 = 0;
+  let rowarr = [];
   for (let i = 0; i < boardarr.length; i++) {
-    console.log(boardarr[i][0]);
+    rowarr.push(boardarr[row][i]);
   }
+  return rowarr;
 }
 //getboard column
-function getcolumn(gameboard, col) {
-  let gameboards;
+function getColumn(col) {
   let colarr = [];
-  for (let i = 0; i < gameboard.length; i++) {
-    colarr.push(gameboard[i][col]);
+  let player1 = 0;
+  let player2 = 0;
+  for (let i = 0; i < boardarr.length; i++) {
+    colarr.push(boardarr[i][col]);
+  }
+  return colarr;
+}
+//get diagonal
+function getbackDiagonal() {
+  let backdiag = [];
+  for (let i = 0; i < boardarr.length; i++) {
+    backdiag.push(boardarr[i][i]);
+  }
+  return backdiag;
+}
+function getForwardDiagonal() {
+  let forwarddiag = [];
+  for (let k = boardarr.length - 1; k > -1; k--) {
+    forwarddiag.push(boardarr[k][k]);
+  }
+  return forwarddiag;
+}
+function win() {
+  //create win check array
+  let check = [];
+  //clears check array
+  function checkclear() {
+    check = [];
+  }
+  //for the length of the tiles
+  let wincount = 0;
+  let counter = 0;
+  for (let i = 0; i < 3; i++) {
+    counter++;
+    //check row
+    check.push(getRow(i));
+    checkwin();
+    checkclear();
+    //check column
+    check.push(getColumn(i));
+    checkwin();
+    checkclear();
+  }
+  //check backslash diagonal
+  check.push(getbackDiagonal());
+  checkwin();
+  checkclear();
+  //check forward slash diagonal
+  check.push(getForwardDiagonal());
+  checkwin();
+  checkclear();
+  function checkwin() {
+    function autoreset() {
+      let boardtk = document.getElementsByClassName("board");
+      //resets board
+      for (i = 0; i < boardtk.length; i++) {
+        if (boardtk[i].classList.contains("taken")) {
+          boardtk[i].classList.remove("picked", "taken");
+          boardtk[i].innerText = " ";
+        }
+      }
+    }
+    //if its 3 X player 1 wins
+    if (check.toString() === "X,X,X") {
+      wincount++;
+      alert(`${gamestate.player[0].name} wins`);
+      console.log("player 1 wins");
+      autoreset();
+      return;
+    }
+    //if its 3 O player 2 wins
+    if (check.toString() === "O,O,O") {
+      wincount++;
+      alert(`${gamestate.player[1].name} wins`);
+      console.log("player 2 wins");
+      autoreset();
+      return;
+    }
+    if (
+      check.toString() !== "X,X,X" &&
+      check !== "O,O,O" &&
+      counter === 4 &&
+      boardarr.toString ==
+        [
+          [1, 1, 1],
+          [1, 1, 1],
+          [1, 1, 1],
+        ]
+    ) {
+      alert("no-one wons");
+    }
+    if (win === 1) {
+      return;
+    }
   }
 }
-//check if tie
-//check for win
 
 //event listeners
 input.addEventListener("click", function () {
@@ -137,17 +231,11 @@ gameboard.addEventListener("click", (e) => {
   let target = e.target;
   let row = e.target.id[0];
   let column = e.target.id[2];
-  if (gamestate.currentturn === 0) {
-    boardarr[row][column] = "x";
-    target.innerText = "x";
-    gamestate.player[0].tiles.push([row, column]);
-    renderturn();
-  }
-  if (gamestate.currentturn === 1) {
-    boardarr[row][column] = "0";
-    target.innerText = "0";
-    gamestate.player[1].tiles.push([row, column]);
-
-    renderturn();
-  }
+  let i = gamestate.currentturn;
+  //current player gets tile
+  boardarr[row][column] = `${gamestate.player[i].letter}`;
+  target.innerText = `${gamestate.player[i].letter}`;
+  gamestate.player[i].tiles.push([row, column]);
+  renderturn();
+  win();
 });
