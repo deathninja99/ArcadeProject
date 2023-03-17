@@ -140,11 +140,13 @@ function getbackDiagonal() {
   }
   return backdiag;
 }
-function getForwardDiagonal() {
+function getForwardDiagonal(row) {
   let forwarddiag = [];
-  for (let k = boardarr.length - 1; k > -1; k--) {
-    forwarddiag.push(boardarr[k][k]);
-  }
+  for (let row = 0; i < 3; i++)
+    for (let k = boardarr.length - 1; k > -1; k--) {
+      forwarddiag.push(boardarr[row][k]);
+    }
+  console.log(forwarddiag);
   return forwarddiag;
 }
 function win() {
@@ -168,14 +170,13 @@ function win() {
     checkwin();
     checkclear();
   }
-  //check backslash diagonal
-  check.push(getbackDiagonal());
-  checkwin();
-  checkclear();
   //check forward slash diagonal
   check.push(getForwardDiagonal());
   checkwin();
   checkclear();
+  //check backslash diagonal
+  check.push(getbackDiagonal());
+  checkwin();
   function checkwin() {
     function autoreset() {
       let boardtk = document.getElementsByClassName("board");
