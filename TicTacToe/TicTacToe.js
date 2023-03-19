@@ -142,11 +142,10 @@ function getbackDiagonal() {
 }
 function getForwardDiagonal(row) {
   let forwarddiag = [];
-  for (let row = 0; i < 3; i++)
+  for (let row = 0; row < 3; row++)
     for (let k = boardarr.length - 1; k > -1; k--) {
-      forwarddiag.push(boardarr[row][k]);
+      forwarddiag.push(boardarr[k][k]);
     }
-  console.log(forwarddiag);
   return forwarddiag;
 }
 function win() {
@@ -178,22 +177,11 @@ function win() {
   check.push(getbackDiagonal());
   checkwin();
   function checkwin() {
-    function autoreset() {
-      let boardtk = document.getElementsByClassName("board");
-      //resets board
-      for (i = 0; i < boardtk.length; i++) {
-        if (boardtk[i].classList.contains("taken")) {
-          boardtk[i].classList.remove("picked", "taken");
-          boardtk[i].innerText = " ";
-        }
-      }
-    }
     //if its 3 X player 1 wins
     if (check.toString() === "X,X,X") {
       wincount++;
       alert(`${gamestate.player[0].name} wins`);
       console.log("player 1 wins");
-      autoreset();
       return;
     }
     //if its 3 O player 2 wins
@@ -201,13 +189,12 @@ function win() {
       wincount++;
       alert(`${gamestate.player[1].name} wins`);
       console.log("player 2 wins");
-      autoreset();
       return;
     }
     if (
       check.toString() !== "X,X,X" &&
       check !== "O,O,O" &&
-      counter === 4 &&
+      counter === 9 &&
       boardarr.toString ==
         [
           [1, 1, 1],
